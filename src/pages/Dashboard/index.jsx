@@ -48,16 +48,16 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item>
-          <Paper sx={cardStyle('#003300', '#00ffcc')}>
-            <Typography variant="subtitle2">ÚLTIMO RODANDO</Typography>
-            <Typography variant="h5">{ultimoRodando}</Typography>
+          <Paper sx={cardStyle('#002f2f', '#00ffff')}>
+            <Typography variant="subtitle2">ESCALA DO DIA</Typography>
+            <Typography variant="h5">{String(escala).padStart(4, '0')}</Typography>
           </Paper>
         </Grid>
 
         <Grid item>
-          <Paper sx={cardStyle('#002f2f', '#00ffff')}>
-            <Typography variant="subtitle2">ESCALA DO DIA</Typography>
-            <Typography variant="h5">{String(escala).padStart(4, '0')}</Typography>
+          <Paper sx={cardStyle('#003300', '#00ffcc')}>
+            <Typography variant="subtitle2">ÚLTIMO RODANDO</Typography>
+            <Typography variant="h5">{ultimoRodando}</Typography>
           </Paper>
         </Grid>
 
