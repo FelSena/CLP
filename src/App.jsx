@@ -5,9 +5,10 @@ import './App.css'
 function App() {
 
 
-  return <Dashboard />
-
-  //commit this
+  return (
+    <Dashboard />
+  )
+ 
 
 }
 

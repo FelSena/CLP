@@ -1,85 +1,178 @@
-import { useState } from 'react';
+import React from 'react';
 import {
   Box,
-  Tabs,
-  Tab,
   Typography,
-  Card,
-  CardContent,
-  LinearProgress,
   Grid,
+  Paper,
+  Select,
+  MenuItem,
+  TextField
 } from '@mui/material';
-import { Settings, Thermostat, Speed } from '@mui/icons-material';
 
-export default function Dashboard() {
-  const [tab, setTab] = useState(0);
+const Dashboard = () => {
+  const [escala, setEscala] = React.useState(644);
+  
+  const [producao] = React.useState(186);
+  const [ultimoRodando] = React.useState('00:03:26');
+  const [ultimaParada] = React.useState('00:00:00');
 
-  const handleChange = (event, newValue) => {
-    setTab(newValue);
+  const cellStyle = {
+    border: '1px solid #ccc',
+    padding: '8px',
+    fontSize: '0.9rem',
   };
 
+  const pontos = [
+    { ativo: true, titulo: 'SEGUNDO', subtitulo: 'TRANSPASSE', qtd: 5, tempo: '01:54:56' },
+    { ativo: true, titulo: 'BALANÇA', subtitulo: '', qtd: 11, tempo: '01:40:00' },
+    { ativo: true, titulo: 'TOALETE', subtitulo: '', qtd: 19, tempo: '01:21:45' },
+    { ativo: true, titulo: 'PRIMEIRO', subtitulo: 'TRANSPASSE', qtd: 6, tempo: '01:01:58' },
+    { ativo: true, titulo: 'SIF E', subtitulo: 'SERRA DE CARCAÇAS', qtd: 3, tempo: '00:38:10' },
+    { ativo: true, titulo: 'NOREA', subtitulo: 'DECAÇEÇAS', qtd: 0, tempo: '00:00:00' },
+    { ativo: false, titulo: 'MESA DE', subtitulo: 'VÍSCERAS', qtd: 0, tempo: '00:00:00' },
+    { ativo: true, titulo: 'P.C.C', subtitulo: 'DIANTEIRO', qtd: 0, tempo: '00:00:00' },
+  ];
   return (
-    <Box sx={{ p: 4 }}>
-      <Tabs value={tab} onChange={handleChange} aria-label="Dashboard Tabs" centered>
-        <Tab label="Geral" icon={<Speed />} iconPosition="start" />
-        <Tab label="Temperatura" icon={<Thermostat />} iconPosition="start" />
-        <Tab label="Configuração" icon={<Settings />} iconPosition="start" />
-      </Tabs>
+    <Box p={2} sx={{ backgroundColor: 'black', height: '100%', width: '100%' }}>
+      <Typography variant="h4" align="center" color="red" fontWeight="bold">
+        SISTEMA DE MONITORAMENTO DE PARADAS DO ABATE
+      </Typography>
 
-      {tab === 0 && (
-        <Grid container spacing={3} mt={2}>
-          <StatusCard label="Máquina 01" status="Ativa" temperatura={36} carga={72} />
-          <StatusCard label="Máquina 02" status="Parada" temperatura={24} carga={0} />
-          <StatusCard label="Máquina 03" status="Manutenção" temperatura={0} carga={0} />
+      {/* CARDS PRINCIPAIS */}
+      <Grid container spacing={2} mt={2} justifyContent="center">
+        <Grid item>
+          <Paper sx={cardStyle('#001f3f', '#00ffcc')}>
+            <Typography variant="subtitle2">PRODUÇÃO</Typography>
+            <Typography variant="h5">{String(producao).padStart(4, '0')}</Typography>
+          </Paper>
         </Grid>
-      )}
 
-      {tab === 1 && (
-        <Grid container spacing={3} mt={2}>
-          <TempCard nome="Máquina 01" valor={36} />
-          <TempCard nome="Máquina 02" valor={24} />
+        <Grid item>
+          <Paper sx={cardStyle('#003300', '#00ffcc')}>
+            <Typography variant="subtitle2">ÚLTIMO RODANDO</Typography>
+            <Typography variant="h5">{ultimoRodando}</Typography>
+          </Paper>
         </Grid>
-      )}
 
-      {tab === 2 && (
-        <Box mt={3}>
-          <Typography color="text.secondary">Área de configurações do sistema</Typography>
-        </Box>
-      )}
+        <Grid item>
+          <Paper sx={cardStyle('#002f2f', '#00ffff')}>
+            <Typography variant="subtitle2">ESCALA DO DIA</Typography>
+            <Typography variant="h5">{String(escala).padStart(4, '0')}</Typography>
+          </Paper>
+        </Grid>
+
+        <Grid item>
+          <Paper sx={cardStyle('#222200', '#ffcc00')}>
+            <Typography variant="subtitle2">ÚLTIMA PARADA</Typography>
+            <Typography variant="body2">BALANÇA</Typography>
+            <Typography variant="h5">{ultimaParada}</Typography>
+          </Paper>
+        </Grid>
+        <Grid item>
+        <Paper sx={cardStyle('#f5f5f5', '#000')}>
+          <Typography color="black">ESCALA ABATE</Typography>
+          <Select
+            value={escala}
+            onChange={(e) => setEscala(e.target.value)}
+            sx={{ backgroundColor: '#fff', minWidth: 80 }}
+          >
+            {[644, 700, 800].map((val) => (
+              <MenuItem key={val} value={val}>{val}</MenuItem>
+            ))}
+          </Select>
+          </Paper>
+        </Grid>
+
+        
+      </Grid>
+
+      {/* PONTOS */}
+      <Grid container spacing={1} mt={3} justifyContent="center">
+        {pontos.map((ponto, index) => (
+          <Grid item key={index}>
+            <Paper
+              sx={{
+                width: 100,
+                height: 60,
+                backgroundColor: ponto.ativo ? 'green' : 'red',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: '#fff',
+                textAlign: 'center',
+                padding: '4px',
+              }}
+            >
+              <Typography variant="caption">{ponto.titulo}</Typography>
+              <Typography variant="caption">{ponto.subtitulo}</Typography>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
+      <Grid container mt={4} justifyContent="center">
+  <Grid item xs={12} md={10}>
+    <Paper sx={{ overflowX: 'auto' }}>
+      <Box sx={{ minWidth: 400 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr style={{ backgroundColor: '#001f3f', color: '#fff' }}>
+              <th style={cellStyle}>Setor</th>
+              <th style={cellStyle}>Qtde</th>
+              <th style={cellStyle}>Tempo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pontos.map((ponto, index) => (
+              <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#e0e0e0' }}>
+                <td style={cellStyle}>{`${ponto.titulo} ${ponto.subtitulo}`.trim()}</td>
+                <td style={{ ...cellStyle, textAlign: 'center' }}>{ponto.qtd || 0}</td>
+                <td style={{ ...cellStyle, textAlign: 'center', color: 'red', fontWeight: 'bold' }}>
+                  {ponto.tempo || '00:00:00'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Box>
+    </Paper>
+  </Grid>
+</Grid>
+      {/* ESCALA SELECTOR 
+      <Grid container spacing={2} mt={4} justifyContent="center">
+        <Grid item>
+        <Paper sx={cardStyle('#f5f5f5', '#000')}>
+          <Typography color="black">ESCALA ABATE</Typography>
+          <Select
+            value={escala}
+            onChange={(e) => setEscala(e.target.value)}
+            sx={{ backgroundColor: '#fff', minWidth: 80 }}
+          >
+            {[644, 700, 800].map((val) => (
+              <MenuItem key={val} value={val}>{val}</MenuItem>
+            ))}
+          </Select>
+          </Paper>
+        </Grid>
+        
+      </Grid>
+      */}
     </Box>
   );
-}
+};
 
-function StatusCard({ label, status, temperatura, carga }) {
-  return (
-    <Grid item xs={12} sm={6} md={4}>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>{label}</Typography>
-          <Typography variant="body2" color="text.secondary">Status: {status}</Typography>
-          <Box mt={2}>
-            <Typography variant="body2">Temperatura</Typography>
-            <LinearProgress variant="determinate" value={temperatura} />
-          </Box>
-          <Box mt={2}>
-            <Typography variant="body2">Carga</Typography>
-            <LinearProgress variant="determinate" value={carga} />
-          </Box>
-        </CardContent>
-      </Card>
-    </Grid>
-  );
-}
+// Estilo padronizado para os cards
+const cardStyle = (bgColor, textColor) => ({
+  backgroundColor: bgColor,
+  color: textColor,
+  width: 180,
+  minHeight: 100,
+  padding: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  textAlign: 'center'
+});
 
-function TempCard({ nome, valor }) {
-  return (
-    <Grid item xs={12} sm={6}>
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>{nome}</Typography>
-          <Typography variant="h4">{valor}°C</Typography>
-        </CardContent>
-      </Card>
-    </Grid>
-  );
-}
+export default Dashboard;
