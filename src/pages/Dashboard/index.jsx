@@ -49,6 +49,10 @@ const Dashboard = () => {
     { ativo: true, titulo: 'NOREA', subtitulo: 'DECAÇEÇAS', qtd: 0, tempo: '00:00:00' },
     { ativo: false, titulo: 'MESA DE', subtitulo: 'VÍSCERAS', qtd: 0, tempo: '00:00:00' },
     { ativo: true, titulo: 'P.C.C', subtitulo: 'DIANTEIRO', qtd: 0, tempo: '00:00:00' },
+    { ativo: true, titulo: 'Segurança', subtitulo: '1', qtd: 0, tempo: '00:00:00' },
+    { ativo: true, titulo: 'Segurança', subtitulo: '2', qtd: 0, tempo: '00:00:00' },
+    { ativo: true, titulo: 'Segurança', subtitulo: '3', qtd: 0, tempo: '00:00:00' },
+    { ativo: true, titulo: 'Segurança', subtitulo: '4', qtd: 0, tempo: '00:00:00' }
   ];
 
   const cellStyle = {
@@ -125,29 +129,53 @@ const Dashboard = () => {
 </Grid>
 
       {/* PONTOS */}
-      <Grid container spacing={1} mt={3} justifyContent="center">
-        {pontos.map((ponto, index) => (
-          <Grid item key={index}>
-            <Paper
-              sx={{
-                width: 100,
-                height: 60,
-                backgroundColor: ponto.ativo ? 'green' : 'red',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: '#fff',
-                textAlign: 'center',
-                padding: '4px',
-              }}
-            >
-              <Typography variant="caption">{ponto.titulo}</Typography>
-              <Typography variant="caption">{ponto.subtitulo}</Typography>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
+      <Grid container spacing={1} mt={3} justifyContent="center" wrap="wrap">
+  {pontos.slice(0, 6).map((ponto, index) => (
+    <Grid item key={index}>
+      <Paper
+        sx={{
+          width: 120,
+          height: 60,
+          backgroundColor: ponto.ativo ? 'green' : 'red',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: '#fff',
+          textAlign: 'center',
+          padding: '4px',
+        }}
+      >
+        <Typography variant="caption">{ponto.titulo}</Typography>
+        <Typography variant="caption">{ponto.subtitulo}</Typography>
+      </Paper>
+    </Grid>
+  ))}
+</Grid>
+
+<Grid container spacing={1} mt={1} justifyContent="center" wrap="wrap">
+  {pontos.slice(6, 12).map((ponto, index) => (
+    <Grid item key={index}>
+      <Paper
+        sx={{
+          width: 120,
+          height: 60,
+          backgroundColor: ponto.ativo ? 'green' : 'red',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: '#fff',
+          textAlign: 'center',
+          padding: '4px',
+        }}
+      >
+        <Typography variant="caption">{ponto.titulo}</Typography>
+        <Typography variant="caption">{ponto.subtitulo}</Typography>
+      </Paper>
+    </Grid>
+  ))}
+</Grid>
 
       {/* TABELAS */}
       <Grid container spacing={2} mt={4} justifyContent="center">
@@ -165,7 +193,7 @@ const Dashboard = () => {
                   </thead>
                   <tbody>
                     {pontos
-                      .slice(coluna * 4, coluna * 4 + 4)
+                      .slice(coluna * 6, coluna * 6 + 6)
                       .map((ponto, index) => (
                         <tr
                           key={index}
