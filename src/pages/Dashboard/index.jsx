@@ -22,6 +22,8 @@ const Dashboard = () => {
   const [producao] = React.useState(186);
   const [ultimoRodando] = React.useState('00:03:26');
   const [ultimaParada] = React.useState('00:00:00');
+  const velocidade =  0;
+  const porcentagem = (producao/escala) *100
   
   const [tempoRodando, setTempoRodando] = useState(0);
   const [tempoParado, setTempoParado] = useState(0);
@@ -80,11 +82,12 @@ const Dashboard = () => {
         <Typography variant="subtitle2">ESCALA DO DIA</Typography>
         <Typography variant="h5">{String(escala).padStart(4, '0')}</Typography>
       </Paper>
+      
     </Box>
   </Grid>
 
   {/* Bloco 2: Relógio (Status da Linha) */}
-  <Grid item>
+  <Grid item >
     <Paper
       sx={{
         backgroundColor: 'darkred',
@@ -110,6 +113,7 @@ const Dashboard = () => {
       </Typography>
       <Typography variant="h4">{formatTime(tempoParado)}</Typography>
     </Paper>
+        
   </Grid>
 
   {/* Bloco 3: Último rodando e Última parada */}
@@ -126,6 +130,63 @@ const Dashboard = () => {
       </Paper>
     </Box>
   </Grid>
+  
+</Grid>
+
+{/* Velocidade, seletor e porcentagem */}
+<Grid container spacing={2} mt={3} justifyContent='center' >
+  <Grid item>
+  <Paper sx={{ 
+        maxHeight: 50,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 1,
+        padding: 1 }}>
+           <Typography color="black">ESCALA ABATE</Typography>
+            <Select
+              value={escala}
+              onChange={(e) => setEscala(e.target.value)}
+              sx={{ backgroundColor: '#fff' }}
+            >
+              {[644, 700, 800].map((val) => (
+                <MenuItem key={val} value={val}>
+                  {val}
+                </MenuItem>
+              ))}
+            </Select>
+          </Paper>
+  </Grid>
+<Grid item>
+    <Paper sx={{ 
+  minWidth: 250,
+  maxHeight: 50,
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  padding: 2 }}>
+      <Typography variant="subtitle2">VELOCIDADE</Typography>
+      <Typography variant="h5">{velocidade} B/H</Typography>
+    </Paper>
+    
+</Grid>
+<Grid item>
+    <Paper sx={{ 
+  minWidth: 250,
+  maxHeight: 50,
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  padding: 2 }}>
+      <Typography variant="subtitle2">Processo</Typography>
+      <Typography variant="h5">{porcentagem.toFixed(2)} %</Typography>
+    </Paper>
+    
+</Grid>
+
 </Grid>
 
       {/* PONTOS */}
@@ -224,24 +285,7 @@ const Dashboard = () => {
       </Grid>
 
       {/* SELECT ESCALA */}
-      <Grid container spacing={2} mt={4} justifyContent="center">
-        <Grid item>
-          <Paper sx={{...cardStyle('#f5f5f5', '#000'), width: 200, display: 'flex', flexDirection: 'row', gap: 1} }>
-            <Typography color="black">ESCALA ABATE</Typography>
-            <Select
-              value={escala}
-              onChange={(e) => setEscala(e.target.value)}
-              sx={{ backgroundColor: '#fff', minWidth: 80 }}
-            >
-              {[644, 700, 800].map((val) => (
-                <MenuItem key={val} value={val}>
-                  {val}
-                </MenuItem>
-              ))}
-            </Select>
-          </Paper>
-        </Grid>
-      </Grid>
+      
     </Box>
   );
 };
